@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo "el primer parametro: $1, el segundo: $2"
 if [ $1 == "boost" ] && [ $2 == "linux" ]; then
 	if [ ! -d "$HOME/boost/lib" ]; then
 		wget -O boost.tar.gz https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz/download
