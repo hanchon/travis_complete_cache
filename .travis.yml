@@ -43,6 +43,14 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
+    
+    # Xcode 7 Debug
+    - env: CXX_FLAGS="-std=c++11" BUILD_TYPE=Debug
+      os: osx
+      osx_image: xcode73
+      addons: &xcode73
+      sudo: required
+      
 branches:
   only:
     - master
@@ -71,37 +79,48 @@ install:
       CMAKE_URL="https://cmake.org/files/v3.7/cmake-3.7.0-rc3-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+    else 
+      brew unlink cmake
+      brew install cmake
     fi
   ############################################################################
   # Custom script for external dependences
   ############################################################################
   - cd ${DEPS_DIR}
   - wget -O build_deps.sh  https://raw.githubusercontent.com/hanchon/travis_complete_cache/master/build_deps.sh
-  - sudo chmod 777 build_deps.sh
+  - sudo chmod 777 build_deps.sh  
   # Install Boost
-  - ./build_deps.sh boost
-  - export BOOST_OPTS="-DBOOST_ROOT=/home/travis/boost -DBOOST_INCLUDEDIR=/home/travis/boost/include -DBOOST_LIBRARYDIR=/home/travis/boost/lib"    
+  - ./build_deps.sh boost ${TRAVIS_OS_NAME}
   # Install ZeroMQ
   - cd ${DEPS_DIR}
-  - ./build_deps.sh zeromq
-  - export ZEROMQ=" -DZeroMQ_ROOT_DIR=/home/travis/zeromq "  
+  - ./build_deps.sh zeromq ${TRAVIS_OS_NAME}
   # Install Protobuf
   - cd ${DEPS_DIR}
-  - ./build_deps.sh protobuf
-  - export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
-  - export PATH=/home/travis/protobuf/bin:${PATH}
-  - sudo ldconfig
+  - ./build_deps.sh protobuf ${TRAVIS_OS_NAME}
+  #Set linux variables:
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      export BOOST_OPTS="-DBOOST_ROOT=/home/travis/boost -DBOOST_INCLUDEDIR=/home/travis/boost/include -DBOOST_LIBRARYDIR=/home/travis/boost/lib"    
+      export ZEROMQ=" -DZeroMQ_ROOT_DIR=/home/travis/zeromq "  
+      export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
+      export PATH=/home/travis/protobuf/bin:${PATH}
+      sudo ldconfig
+    else
+      export BOOST_OPTS=" "    
+      export ZEROMQ=" "  
+      export PROTOBUF=" "
+    fi
   ############################################################################
   # Custom script for internal dependences
   ############################################################################
   - wget -O build_bitprim.sh  https://raw.githubusercontent.com/hanchon/travis_complete_cache/master/build_bitprim.sh
   - sudo chmod 777 build_bitprim.sh
   #Install bitprim-secp256k1
-  - ./build_bitprim.sh secp256k1 linux
+  - ./build_bitprim.sh secp256k1 ${TRAVIS_OS_NAME}
   #Install bitprim-core
-  - ./build_bitprim.sh core linux
+  - ./build_bitprim.sh core ${TRAVIS_OS_NAME}
   #Install bitprim-protocol
-  - ./build_bitprim.sh protocol linux    
+  - ./build_bitprim.sh protocol ${TRAVIS_OS_NAME}
 
   - echo "install"
 
