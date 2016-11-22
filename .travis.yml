@@ -81,14 +81,17 @@ install:
   # Install ZeroMQ
   ############################################################################    
   if [ ! -d "$HOME/zeromq/lib" ]; then
-  - wget https://github.com/zeromq/libzmq/releases/download/v4.2.0/zeromq-4.2.0.tar.gz
-  - tar -xzvf zeromq-4.2.0.tar.gz
-  - cd zeromq-4.2.0
-  - sudo ./autogen.sh
-  - sudo ./configure --prefix=$HOME/zeromq
-  - sudo make --silent 
-  - sudo make install --silent
-  - cd ..
+    wget https://github.com/zeromq/libzmq/releases/download/v4.2.0/zeromq-4.2.0.tar.gz
+    tar -xzvf zeromq-4.2.0.tar.gz
+    cd zeromq-4.2.0
+    sudo ./autogen.sh
+    sudo ./configure --prefix=$HOME/zeromq
+    sudo make --silent 
+    sudo make install --silent
+    cd ..
+  else
+    echo 'Using cached directory for zeromq.';
+  fi
   ############################################################################
   # Install protobuf
   ############################################################################
@@ -101,6 +104,8 @@ install:
       sudo make --silent
       sudo make install --silent
       cd ..
+    else
+      echo 'Using cached directory for protobuf.';
     fi
     
   - echo "install"
@@ -117,7 +122,9 @@ before_script:
 
   - cd ${TRAVIS_BUILD_DIR}
   - echo "before_script"
-
+  - ls -A $HOME/protobuf
+  - ls -A $HOME/zeromq
+  
 script:
   - echo "script"
   - ls -A $HOME/boost
