@@ -88,11 +88,14 @@ install:
       sudo make --silent 
       sudo make install --silent
       cd ..
+      export ZEROMQ=""
     else
       echo 'Using cached directory for zeromq.';
       export ZeroMQ_ROOT_DIR="/home/travis/zeromq"
       export ZeroMQ_INCLUDE_DIR="/home/travis/zeromq/include"
       export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
+      
+      export ZEROMQ=" -DCMAKE_INSTALL_PREFIX=/home/travis/zeromq "
     fi
   ############################################################################
   # Install protobuf
@@ -106,6 +109,7 @@ install:
       sudo make --silent
       sudo make install --silent
       cd ..
+      export PROTOBUF=""
     else
       echo 'Using cached directory for protobuf.';
       export Protobuf_ROOT_DIR="/home/travis/protobuf"
@@ -115,12 +119,12 @@ install:
       export PATH=/home/travis/protobuf/bin:${PATH}
       sudo ldconfig
       
-      
       ls -A /home/travis/protobuf
       ls -A /home/travis/protobuf/include
       ls -A /home/travis/protobuf/lib
       ls -A /home/travis/protobuf/bin
       
+      export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
     fi
 
   - echo $PATH
@@ -132,7 +136,7 @@ install:
   - cd bitprim-protocol
   - mkdir build
   - cd build
-  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/home/travis/zeromq -DProtobuf_ROOT_DIR=/home/travis/protobuf -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
+  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF ${PROTOBUF} ${ZEROMQ} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
   - make -j2 --silent
   - sudo make install --silent
   - cd ..
