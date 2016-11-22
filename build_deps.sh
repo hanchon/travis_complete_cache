@@ -47,7 +47,7 @@ if [ $1 == "protobuf" ] && [ $2 == "osx" ]; then
 	echo 'Protobuf installed';
 fi
 
-if [ $1 == "zeromq" ] && [ $2=="linux" ]; then
+if [ $1 == "zeromq" ] && [ $2 == "linux" ]; then
 	if [ ! -d "$HOME/zeromq/lib" ]; then
 		wget https://github.com/zeromq/libzmq/releases/download/v4.2.0/zeromq-4.2.0.tar.gz
 		tar -xzvf zeromq-4.2.0.tar.gz
@@ -66,7 +66,7 @@ if [ $1 == "zeromq" ] && [ $2=="linux" ]; then
 	#export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
 fi
 
-if [ $1 == "zeromq" ] && [ $2=="osx" ]; then
+if [ $1 == "zeromq" ] && [ $2 == "osx" ]; then
 		wget https://github.com/zeromq/libzmq/releases/download/v4.2.0/zeromq-4.2.0.tar.gz
 		tar -xzvf zeromq-4.2.0.tar.gz
 		cd zeromq-4.2.0
