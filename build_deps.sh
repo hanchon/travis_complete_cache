@@ -1,6 +1,7 @@
 #!/bin/bash
+$2 = "linux"
 
-if [ $1 == "boost" ] && [ $2 == "linux" ];then
+if [ $1 == "boost" ] && [ $2 == "linux" ]; then
 	if [ ! -d "$HOME/boost/lib" ]; then
 		wget -O boost.tar.gz https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz/download
 		tar -xzf boost.tar.gz
@@ -19,7 +20,7 @@ if [ $1 == "boost" ] && [ $2 == "linux" ];then
 	#export BOOST_OPTS="-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"	
 fi
 
-if [ $1 == "protobuf" ] && [ $2 == "linux" ];then
+if [ $1 == "protobuf" ] && [ $2 == "linux" ]; then
 	if [ ! -d "$HOME/protobuf/lib" ]; then
 		wget https://github.com/google/protobuf/releases/download/v3.1.0/protobuf-cpp-3.1.0.tar.gz
 		tar -xzvf protobuf-cpp-3.1.0.tar.gz
@@ -41,13 +42,13 @@ if [ $1 == "protobuf" ] && [ $2 == "linux" ];then
 	#export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
 fi
 
-if [ $1 == "protobuf" ] && [ $2 == "osx" ];then
+if [ $1 == "protobuf" ] && [ $2 == "osx" ]; then
 	brew unlink protobuf
 	brew install protobuf
 	echo 'Protobuf installed';
 fi
 
-if [ $1 == "zeromq" ] && [ $2="linux" ];then
+if [ $1 == "zeromq" ] && [ $2=="linux" ]; then
 	if [ ! -d "$HOME/zeromq/lib" ]; then
 		wget https://github.com/zeromq/libzmq/releases/download/v4.2.0/zeromq-4.2.0.tar.gz
 		tar -xzvf zeromq-4.2.0.tar.gz
@@ -66,7 +67,7 @@ if [ $1 == "zeromq" ] && [ $2="linux" ];then
 	#export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
 fi
 
-if [ $1 == "zeromq" ] && [ $2="osx" ];then
+if [ $1 == "zeromq" ] && [ $2=="osx" ]; then
 		wget https://github.com/zeromq/libzmq/releases/download/v4.2.0/zeromq-4.2.0.tar.gz
 		tar -xzvf zeromq-4.2.0.tar.gz
 		cd zeromq-4.2.0
