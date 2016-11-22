@@ -92,7 +92,7 @@ install:
   - export BOOST_ROOT="/home/travis/boost"
   - export BOOST_INCLUDE="/home/travis/boost/include"
   - export BOOST_LIBDIR="/home/travis/boost/lib"
-  - export BOOST_OPTS = "-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"
+  - export BOOST_OPTS="-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"
     
   ############################################################################
   # Install ZeroMQ
