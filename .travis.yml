@@ -70,11 +70,8 @@ install:
       export BOOST_ROOT="/home/travis/boost"
       export BOOST_INCLUDE="/home/travis/boost/include"
       export BOOST_LIBDIR="/home/travis/boost/lib"
-      export BOOST_OPTS = "-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"
+      #export BOOST_OPTS = "-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"
       ls -A $HOME/boost
-      #ldconfig -n /home/travis/boost
-      #ldconfig -n /home/travis/boost/lib
-      #ldconfig -n /home/travis/boost/include
     fi
     
   ############################################################################
@@ -92,6 +89,10 @@ install:
       cd ..
     else
       echo 'Using cached directory for zeromq.';
+      export ZeroMQ_ROOT_DIR = "$HOME/zeromq"
+      export ZeroMQ_INCLUDE_DIR = "$HOME/zeromq/include"
+      export ZeroMQ_LIBRARIES = "$HOME/zeromq/lib"
+      ls -A $HOME/zeromq
     fi
   ############################################################################
   # Install protobuf
@@ -107,6 +108,11 @@ install:
       cd ..
     else
       echo 'Using cached directory for protobuf.';
+      export Protobuf_ROOT_DIR = "$HOME/protobuf"
+      export Protobuf_INCLUDE_DIRS = "$HOME/protobuf/include"
+      export Protobuf_LIBRARY = "$HOME/protobuf/lib"
+      export Protobuf_PROTOC_EXECUTABLE = "$HOME/protobuf/bin"
+      ls -A $HOME/protobuf
     fi
     
   - echo "install"
@@ -123,9 +129,6 @@ before_script:
 
   - cd ${TRAVIS_BUILD_DIR}
   - echo "before_script"
-  - ls -A $HOME/protobuf
-  - ls -A $HOME/zeromq
   
 script:
   - echo "script"
-  - ls -A $HOME/boost
