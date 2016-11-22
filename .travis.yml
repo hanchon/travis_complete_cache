@@ -34,8 +34,8 @@ before_install:
   - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
   - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
 
-  - if [ -n "$GCC_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} -Wall -Wextra"; fi
-  - if [ -n "$CLANG_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} -Wall -Wextra"; fi
+  - if [ -n "$GCC_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} -Wall -Wextra -Wno-ignored-qualifiers"; fi
+  - if [ -n "$CLANG_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} -Wall -Wextra -Wno-ignored-qualifiers"; fi
 
 install:
   ############################################################################
@@ -106,10 +106,10 @@ install:
       cd ..
     else
       echo 'Using cached directory for protobuf.';
-      export Protobuf_ROOT_DIR="$HOME/protobuf"
-      export Protobuf_INCLUDE_DIR="$HOME/protobuf/include"
-      export Protobuf_LIBRARY="$HOME/protobuf/lib"
-      export Protobuf_PROTOC_EXECUTABLE="$HOME/protobuf/bin"
+      export PROTOBUF_ROOT_DIR="$HOME/protobuf"
+      export PROTOBUF_INCLUDE_DIR="$HOME/protobuf/include"
+      export PROTOBUF_LIBRARY="$HOME/protobuf/lib"
+      export PROTOBUF_PROTOC_EXECUTABLE="$HOME/protobuf/bin"
     fi
 
   ############################################################################
