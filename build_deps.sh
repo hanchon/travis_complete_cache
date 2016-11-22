@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $1 == "boost" && $2 == "linux" ];then
+if [ $1 == "boost" ] && [ $2 == "linux" ];then
 	if [ ! -d "$HOME/boost/lib" ]; then
 		wget -O boost.tar.gz https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz/download
 		tar -xzf boost.tar.gz
@@ -9,9 +9,9 @@ if [ $1 == "boost" && $2 == "linux" ];then
 		./b2
 		sudo ./b2 install
 		cd ..
-    echo 'Boost 1.61.0 installed';
-  else
-    echo 'Boost 1.61.0 already installed';
+ 		echo 'Boost 1.61.0 installed';
+  	else
+    		echo 'Boost 1.61.0 already installed';
 	fi
 	#export BOOST_ROOT="/home/travis/boost"
 	#export BOOST_INCLUDE="/home/travis/boost/include"
@@ -19,7 +19,7 @@ if [ $1 == "boost" && $2 == "linux" ];then
 	#export BOOST_OPTS="-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"	
 fi
 
-if [ $1 == "protobuf" && $2 == "linux" ];then
+if [ $1 == "protobuf" ] && [ $2 == "linux" ];then
 	if [ ! -d "$HOME/protobuf/lib" ]; then
 		wget https://github.com/google/protobuf/releases/download/v3.1.0/protobuf-cpp-3.1.0.tar.gz
 		tar -xzvf protobuf-cpp-3.1.0.tar.gz
@@ -28,10 +28,10 @@ if [ $1 == "protobuf" && $2 == "linux" ];then
 		sudo make --silent
 		sudo make install --silent
 		cd ..
-    echo 'Protobuf 3.1.0 installed';
-  else
-    echo 'Protobuf 3.1.0 already installed';
-  fi
+  		echo 'Protobuf 3.1.0 installed';
+	else
+    		echo 'Protobuf 3.1.0 already installed';
+	fi
 	export Protobuf_ROOT_DIR="/home/travis/protobuf"
 	export Protobuf_INCLUDE_DIR="/home/travis/protobuf/include"
 	export Protobuf_LIBRARY="/home/travis/protobuf/lib"
@@ -41,12 +41,13 @@ if [ $1 == "protobuf" && $2 == "linux" ];then
 	#export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
 fi
 
-if [ $1 == "protobuf" && $2 == "osx" ];then
-  brew unlink protobuf
-  brew install protobuf
+if [ $1 == "protobuf" ] && [ $2 == "osx" ];then
+	brew unlink protobuf
+	brew install protobuf
+	echo 'Protobuf installed';
 fi
 
-if [ $1 == "zeromq" && $2="linux" ];then
+if [ $1 == "zeromq" ] && [ $2="linux" ];then
 	if [ ! -d "$HOME/zeromq/lib" ]; then
 		wget https://github.com/zeromq/libzmq/releases/download/v4.2.0/zeromq-4.2.0.tar.gz
 		tar -xzvf zeromq-4.2.0.tar.gz
@@ -56,16 +57,16 @@ if [ $1 == "zeromq" && $2="linux" ];then
 		sudo make --silent 
 		sudo make install --silent
 		cd ..
-    echo 'ZeroMQ 4.2.0 installed';
-  else
-    echo 'ZeroMQ 4.2.0 already installed';
+  		echo 'ZeroMQ 4.2.0 installed';
+	else
+		echo 'ZeroMQ 4.2.0 already installed';
 	fi
 	#export ZeroMQ_ROOT_DIR="/home/travis/zeromq"
 	#export ZeroMQ_INCLUDE_DIR="/home/travis/zeromq/include"
 	#export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
 fi
 
-if [ $1 == "zeromq" && $2="osx" ];then
+if [ $1 == "zeromq" ] && [ $2="osx" ];then
 		wget https://github.com/zeromq/libzmq/releases/download/v4.2.0/zeromq-4.2.0.tar.gz
 		tar -xzvf zeromq-4.2.0.tar.gz
 		cd zeromq-4.2.0
@@ -74,6 +75,7 @@ if [ $1 == "zeromq" && $2="osx" ];then
 		sudo make --silent 
 		sudo make install --silent
 		cd ..
+		echo 'ZeroMQ 4.2.0 installed';
 fi    
 #call on the main script
 #./dependences.sh boost
