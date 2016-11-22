@@ -1,0 +1,123 @@
+language: cpp
+git:
+  submodules: false
+
+matrix:
+  include:
+    # gcc-5
+    - env: GCC_VERSION=5 CXX_FLAGS="-std=c++11" BUILD_TYPE=Debug
+      os: linux
+      sudo: required
+      dist: trusty
+      cache:
+        ccache: true
+        timeout: 1000
+        directories:
+          - $HOME/boost
+          - $HOME/protobuf
+          - $HOME/zeromq
+      addons: &gcc5
+        apt:
+          packages:
+            - cmake
+            - g++-5
+          sources:
+            - ubuntu-toolchain-r-test
+branches:
+  only:
+    - master
+
+before_install:
+  # Update submodules
+  - git submodule update --init --recursive
+
+  - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
+  - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
+
+  - if [ -n "$GCC_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} -Wall -Wextra"; fi
+  - if [ -n "$CLANG_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} -Wall -Wextra"; fi
+
+install:
+  ############################################################################
+  # All the dependencies are installed in ${TRAVIS_BUILD_DIR}/deps/
+  ############################################################################
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
+
+  ############################################################################
+  # Install a recent CMake
+  ############################################################################
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      CMAKE_URL="https://cmake.org/files/v3.7/cmake-3.7.0-rc3-Linux-x86_64.tar.gz"
+      mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+    fi
+  ############################################################################
+  # Install Boost
+  ############################################################################
+  - |
+    if [ ! -d "$HOME/boost/lib" ]; then
+      wget -O boost.tar.gz https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz/download
+      tar -xzf boost.tar.gz
+      cd boost_1_61_0
+      ./bootstrap.sh --prefix=$HOME/boost
+      ./b2 -d0 #--toolset="gcc-${GCC_VERSION}"
+      sudo ./b2 install
+      cd ..
+    else
+      echo 'Using cached directory for boost.';
+      export BOOST_ROOT="/home/travis/boost"
+      export BOOST_INCLUDE="/home/travis/boost/include"
+      export BOOST_LIBDIR="/home/travis/boost/lib"
+      export BOOST_OPTS = "-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"
+      ls -A $HOME/boost
+      #ldconfig -n /home/travis/boost
+      #ldconfig -n /home/travis/boost/lib
+      #ldconfig -n /home/travis/boost/include
+    fi
+    
+  ############################################################################
+  # Install ZeroMQ
+  ############################################################################    
+  if [ ! -d "$HOME/zeromq/lib" ]; then
+  - wget https://github.com/zeromq/libzmq/releases/download/v4.2.0/zeromq-4.2.0.tar.gz
+  - tar -xzvf zeromq-4.2.0.tar.gz
+  - cd zeromq-4.2.0
+  - sudo ./autogen.sh
+  - sudo ./configure --prefix=$HOME/zeromq
+  - sudo make --silent 
+  - sudo make install --silent
+  - cd ..
+  ############################################################################
+  # Install protobuf
+  ############################################################################
+  - |
+    if [ ! -d "$HOME/protobuf/lib" ]; then
+      wget https://github.com/google/protobuf/releases/download/v3.1.0/protobuf-cpp-3.1.0.tar.gz
+      tar -xzvf protobuf-cpp-3.1.0.tar.gz
+      cd protobuf-3.1.0
+      sudo ./configure --prefix=$HOME/protobuf 
+      sudo make --silent
+      sudo make install --silent
+      cd ..
+    fi
+    
+  - echo "install"
+
+before_script:
+  ############################################################################
+  # Set the git identity (for pushing the documentation and the benchmarks)
+  ############################################################################
+  - git config --global user.name "Travis bot"
+  - git config --global user.email travis-bot@travis-ci.org
+
+  - if [ -n "$GCC_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} -Wall -Wextra"; fi
+  - if [ -n "$CLANG_VERSION" ]; then export CXX_FLAGS="${CXX_FLAGS} -Wall -Wextra"; fi
+
+  - cd ${TRAVIS_BUILD_DIR}
+  - echo "before_script"
+
+script:
+  - echo "script"
+  - ls -A $HOME/boost
