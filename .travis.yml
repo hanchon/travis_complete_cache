@@ -44,6 +44,8 @@ install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 
+  - echo $PATH
+  
   ############################################################################
   # Install a recent CMake
   ############################################################################
@@ -91,7 +93,7 @@ install:
       export ZeroMQ_ROOT_DIR="/home/travis/zeromq"
       export ZeroMQ_INCLUDE_DIR="/home/travis/zeromq/include"
       export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
-      ldconfig -n /home/travis/zeromq/lib
+      sudo ldconfig -n /home/travis/zeromq/lib
     fi
   ############################################################################
   # Install protobuf
@@ -111,7 +113,7 @@ install:
       export Protobuf_INCLUDE_DIR="/home/travis/protobuf/include"
       export Protobuf_LIBRARY="/home/travis/protobuf/lib"
       export Protobuf_PROTOC_EXECUTABLE="/home/travis/protobuf/bin"
-      ldconfig -n /home/travis/protobuf/lib
+      sudo ldconfig -n /home/travis/protobuf/lib
       
       ls -A /home/travis/protobuf
       ls -A /home/travis/protobuf/include
@@ -120,6 +122,8 @@ install:
       
     fi
 
+  - echo $PATH
+  
   ############################################################################
   # bitprim-protocol
   ############################################################################
