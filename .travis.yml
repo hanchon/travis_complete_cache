@@ -71,7 +71,6 @@ install:
       export BOOST_INCLUDE="/home/travis/boost/include"
       export BOOST_LIBDIR="/home/travis/boost/lib"
       #export BOOST_OPTS = "-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"
-      ls -A $HOME/boost
     fi
     
   ############################################################################
@@ -89,10 +88,9 @@ install:
       cd ..
     else
       echo 'Using cached directory for zeromq.';
-      export ZeroMQ_ROOT_DIR = "$HOME/zeromq"
-      export ZeroMQ_INCLUDE_DIR = "$HOME/zeromq/include"
-      export ZeroMQ_LIBRARIES = "$HOME/zeromq/lib"
-      ls -A $HOME/zeromq
+      export ZeroMQ_ROOT_DIR="$HOME/zeromq"
+      export ZeroMQ_INCLUDE_DIR="$HOME/zeromq/include"
+      export ZeroMQ_LIBRARIES="$HOME/zeromq/lib"
     fi
   ############################################################################
   # Install protobuf
@@ -112,8 +110,50 @@ install:
       export Protobuf_INCLUDE_DIRS = "$HOME/protobuf/include"
       export Protobuf_LIBRARY = "$HOME/protobuf/lib"
       export Protobuf_PROTOC_EXECUTABLE = "$HOME/protobuf/bin"
-      ls -A $HOME/protobuf
     fi
+
+  ############################################################################
+  # secp256k1
+  ############################################################################
+  - git clone https://github.com/bitprim/secp256k1.git
+  - cd secp256k1
+  - mkdir build
+  - cd build
+  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_EXAMPLES=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
+  - make -j2 --silent
+  - sudo make install --silent
+  - cd ..
+  - cd ..
+
+  ############################################################################
+  # set libraries
+  ############################################################################
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      sudo ldconfig
+    fi
+
+  ############################################################################
+  # bitprim-core
+  ############################################################################
+  - git clone https://github.com/bitprim/bitprim-core.git
+  - cd bitprim-core
+  - mkdir build
+  - cd build
+  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_EXAMPLES=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
+  - make -j2 --silent
+  - sudo make install --silent
+  - cd ..
+  - cd ..
+
+  ############################################################################
+  # set libraries
+  ############################################################################
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      sudo ldconfig
+    fi
+    
     
   - echo "install"
 
