@@ -82,19 +82,19 @@ install:
   # Install Boost
   ############################################################################
   - cd ${DEPS_DIR}
-  - ./dependences.sh boost
+  - ./build_deps.sh boost
   - export BOOST_OPTS="-DBOOST_ROOT=/home/travis/boost -DBOOST_INCLUDEDIR=/home/travis/boost/include -DBOOST_LIBRARYDIR=/home/travis/boost/lib"    
   ############################################################################
   # Install ZeroMQ
   ############################################################################    
   - cd ${DEPS_DIR}
-  - ./dependences.sh zeromq
+  - ./build_deps.sh zeromq
   - export ZEROMQ=" -DZeroMQ_ROOT_DIR=/home/travis/zeromq "  
   ############################################################################
   # Install protobuf
   ############################################################################
   - cd ${DEPS_DIR}
-  - ./dependences.sh protobuf
+  - ./build_deps.sh protobuf
   - export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
   - export PATH=/home/travis/protobuf/bin:${PATH}
   - sudo ldconfig
