@@ -88,9 +88,9 @@ install:
       cd ..
     else
       echo 'Using cached directory for zeromq.';
-      export ZeroMQ_ROOT_DIR="$HOME/zeromq"
-      export ZeroMQ_INCLUDE_DIR="$HOME/zeromq/include"
-      export ZeroMQ_LIBRARIES="$HOME/zeromq/lib"
+      export ZeroMQ_ROOT_DIR="/home/travis/zeromq"
+      export ZeroMQ_INCLUDE_DIR="/home/travis/zeromq/include"
+      export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
     fi
   ############################################################################
   # Install protobuf
@@ -106,10 +106,10 @@ install:
       cd ..
     else
       echo 'Using cached directory for protobuf.';
-      export PROTOBUF_ROOT_DIR="$HOME/protobuf"
-      export PROTOBUF_INCLUDE_DIR="$HOME/protobuf/include"
-      export PROTOBUF_LIBRARY="$HOME/protobuf/lib"
-      export PROTOBUF_PROTOC_EXECUTABLE="$HOME/protobuf/bin"
+      export Protobuf_ROOT_DIR="/home/travis/protobuf"
+      export Protobuf_INCLUDE_DIR="/home/travis/protobuf/include"
+      export Protobuf_LIBRARY="/home/travis/protobuf/lib"
+      export Protobuf_PROTOC_EXECUTABLE="/home/travis/protobuf/bin"
     fi
 
   ############################################################################
