@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "el primer parametro: $1, el segundo: $2"
+
 if [ $1 == "boost" ] && [ $2 == "linux" ]; then
 	if [ ! -d "$HOME/boost/lib" ]; then
 		wget -O boost.tar.gz https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz/download
@@ -78,12 +78,16 @@ if [ $1 == "zeromq" ] && [ $2 == "osx" ]; then
 		echo 'ZeroMQ 4.2.0 installed';
 fi    
 #call on the main script
-#./dependences.sh boost
-#export BOOST_OPTS="-DBOOST_ROOT=/home/travis/boost -DBOOST_INCLUDEDIR=/home/travis/boost/include -DBOOST_LIBRARYDIR=/home/travis/boost/lib"
-#./dependences.sh zeromq
-#export ZEROMQ=" -DZeroMQ_ROOT_DIR=/home/travis/zeromq "
-#./dependences.sh protobuf
-#export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
-#export PATH=/home/travis/protobuf/bin:${PATH}
-#sudo ldconfig
+#  - |
+#    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+#      export BOOST_OPTS="-DBOOST_ROOT=/home/travis/boost -DBOOST_INCLUDEDIR=/home/travis/boost/include -DBOOST_LIBRARYDIR=/home/travis/boost/lib"    
+#      export ZEROMQ=" -DZeroMQ_ROOT_DIR=/home/travis/zeromq "  
+#      export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
+#      export PATH=/home/travis/protobuf/bin:${PATH}
+#      sudo ldconfig
+#    else
+#      export BOOST_OPTS=" "    
+#      export ZEROMQ=" "  
+#      export PROTOBUF=" "
+#    fi
 
