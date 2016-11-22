@@ -154,6 +154,18 @@ install:
       sudo ldconfig
     fi
     
+  ############################################################################
+  # bitprim-protocol
+  ############################################################################
+  - git clone https://github.com/bitprim/bitprim-protocol.git
+  - cd bitprim-protocol
+  - mkdir build
+  - cd build
+  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
+  - make -j2 --silent
+  - sudo make install --silent
+  - cd ..
+  - cd ..   
     
   - echo "install"
 
