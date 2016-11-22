@@ -93,7 +93,7 @@ install:
       export ZeroMQ_ROOT_DIR="/home/travis/zeromq"
       export ZeroMQ_INCLUDE_DIR="/home/travis/zeromq/include"
       export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
-      sudo ldconfig -n /home/travis/zeromq/lib
+      export PATH=/home/travis/zeromq/lib:${PATH}
     fi
   ############################################################################
   # Install protobuf
@@ -113,7 +113,9 @@ install:
       export Protobuf_INCLUDE_DIR="/home/travis/protobuf/include"
       export Protobuf_LIBRARY="/home/travis/protobuf/lib"
       export Protobuf_PROTOC_EXECUTABLE="/home/travis/protobuf/bin"
-      sudo ldconfig -n /home/travis/protobuf/lib
+      export PATH=/home/travis/protobuf/lib:${PATH}
+      sudo ldconfig
+      
       
       ls -A /home/travis/protobuf
       ls -A /home/travis/protobuf/include
