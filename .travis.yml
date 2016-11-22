@@ -23,6 +23,26 @@ matrix:
             - g++-5
           sources:
             - ubuntu-toolchain-r-test
+            
+    # Linux clang-3.6 Debug
+    - env: CLANG_VERSION=3.6 CXX_FLAGS="-std=c++11" BUILD_TYPE=Debug
+      os: linux
+      sudo: required
+      dist: trusty
+      cache:
+        ccache: true
+        timeout: 1000
+        directories:
+          - $HOME/boost
+          - $HOME/protobuf
+          - $HOME/zeromq
+      addons: &clang36
+        apt:
+          packages:
+            - clang-3.6
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
 branches:
   only:
     - master
@@ -67,13 +87,12 @@ install:
       ./b2  #--toolset="gcc-${GCC_VERSION}"
       sudo ./b2 install
       cd ..
-    else
-      echo 'Using cached directory for boost.';
-      export BOOST_ROOT="/home/travis/boost"
-      export BOOST_INCLUDE="/home/travis/boost/include"
-      export BOOST_LIBDIR="/home/travis/boost/lib"
-      #export BOOST_OPTS = "-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"
     fi
+  - echo 'Using cached directory for boost.';
+  - export BOOST_ROOT="/home/travis/boost"
+  - export BOOST_INCLUDE="/home/travis/boost/include"
+  - export BOOST_LIBDIR="/home/travis/boost/lib"
+  - export BOOST_OPTS = "-DBOOST_ROOT=${BOOST_ROOT} -DBOOST_INCLUDEDIR=${BOOST_INCLUDE} -DBOOST_LIBRARYDIR=${BOOST_LIBDIR}"
     
   ############################################################################
   # Install ZeroMQ
@@ -89,14 +108,14 @@ install:
       sudo make install --silent
       cd ..
       export ZEROMQ=""
-    else
-      echo 'Using cached directory for zeromq.';
-      export ZeroMQ_ROOT_DIR="/home/travis/zeromq"
-      export ZeroMQ_INCLUDE_DIR="/home/travis/zeromq/include"
-      export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
-      
-      export ZEROMQ=" -DZeroMQ_ROOT_DIR=/home/travis/zeromq "
     fi
+  - echo 'Using cached directory for zeromq.';
+  - export ZeroMQ_ROOT_DIR="/home/travis/zeromq"
+  - export ZeroMQ_INCLUDE_DIR="/home/travis/zeromq/include"
+  - export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
+
+  - export ZEROMQ=" -DZeroMQ_ROOT_DIR=/home/travis/zeromq "
+    
   ############################################################################
   # Install protobuf
   ############################################################################
@@ -110,22 +129,17 @@ install:
       sudo make install --silent
       cd ..
       export PROTOBUF=""
-    else
-      echo 'Using cached directory for protobuf.';
-      export Protobuf_ROOT_DIR="/home/travis/protobuf"
-      export Protobuf_INCLUDE_DIR="/home/travis/protobuf/include"
-      export Protobuf_LIBRARY="/home/travis/protobuf/lib"
-      export Protobuf_PROTOC_EXECUTABLE="/home/travis/protobuf/bin"
-      export PATH=/home/travis/protobuf/bin:${PATH}
-      sudo ldconfig
-      
-      ls -A /home/travis/protobuf
-      ls -A /home/travis/protobuf/include
-      ls -A /home/travis/protobuf/lib
-      ls -A /home/travis/protobuf/bin
-      
-      export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
     fi
+  - export Protobuf_ROOT_DIR="/home/travis/protobuf"
+  - export Protobuf_INCLUDE_DIR="/home/travis/protobuf/include"
+  - export Protobuf_LIBRARY="/home/travis/protobuf/lib"
+  - export Protobuf_PROTOC_EXECUTABLE="/home/travis/protobuf/bin"
+  - export PATH=/home/travis/protobuf/bin:${PATH}
+  - sudo ldconfig
+  - export PROTOBUF=" -DProtobuf_ROOT_DIR=/home/travis/protobuf "
+
+    
+    
 
   - echo $PATH
 
@@ -157,7 +171,7 @@ install:
   - cd bitprim-core
   - mkdir build
   - cd build
-  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_EXAMPLES=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
+  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DWITH_EXAMPLES=OFF -DENABLE_MODULE_RECOVERY=ON -DWITH_TOOLS=OFF -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" ${BOOST_OPTS}
   - make -j2 --silent
   - sudo make install --silent
   - cd ..
@@ -178,7 +192,7 @@ install:
   - cd bitprim-protocol
   - mkdir build
   - cd build
-  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF ${PROTOBUF} ${ZEROMQ} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
+  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF ${PROTOBUF} ${ZEROMQ} ${BOOST_OPTS} -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
   - make -j2 --silent
   - sudo make install --silent
   - cd ..
