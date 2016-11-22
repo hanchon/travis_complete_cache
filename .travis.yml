@@ -55,7 +55,7 @@ install:
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     fi
-  ############################################################################
+  ######################################-DCMAKE_INSTALL_PREFIX=######################################
   # Install Boost
   ############################################################################
   - |
@@ -93,7 +93,6 @@ install:
       export ZeroMQ_ROOT_DIR="/home/travis/zeromq"
       export ZeroMQ_INCLUDE_DIR="/home/travis/zeromq/include"
       export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
-      export PATH=/home/travis/zeromq/lib:${PATH}
     fi
   ############################################################################
   # Install protobuf
@@ -113,7 +112,7 @@ install:
       export Protobuf_INCLUDE_DIR="/home/travis/protobuf/include"
       export Protobuf_LIBRARY="/home/travis/protobuf/lib"
       export Protobuf_PROTOC_EXECUTABLE="/home/travis/protobuf/bin"
-      export PATH=/home/travis/protobuf/lib:${PATH}
+      export PATH=/home/travis/protobuf/bin:${PATH}
       sudo ldconfig
       
       
@@ -133,7 +132,7 @@ install:
   - cd bitprim-protocol
   - mkdir build
   - cd build
-  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DProtobuf_ROOT_DIR=/home/travis/protobuf -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
+  - cmake .. -DENABLE_TESTS=OFF -DWITH_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/home/travis/zeromq -DProtobuf_ROOT_DIR=/home/travis/protobuf -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}"
   - make -j2 --silent
   - sudo make install --silent
   - cd ..
