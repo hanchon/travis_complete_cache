@@ -1,5 +1,4 @@
 #!/bin/bash
-$2 = "linux"
 
 if [ $1 == "boost" ] && [ $2 == "linux" ]; then
 	if [ ! -d "$HOME/boost/lib" ]; then
