@@ -62,7 +62,7 @@ install:
       tar -xzf boost.tar.gz
       cd boost_1_61_0
       ./bootstrap.sh --prefix=$HOME/boost
-      ./b2 -d0 #--toolset="gcc-${GCC_VERSION}"
+      ./b2  #--toolset="gcc-${GCC_VERSION}"
       sudo ./b2 install
       cd ..
     else
