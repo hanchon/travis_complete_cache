@@ -110,6 +110,7 @@ install:
       export Protobuf_INCLUDE_DIR="/home/travis/protobuf/include"
       export Protobuf_LIBRARY="/home/travis/protobuf/lib"
       export Protobuf_PROTOC_EXECUTABLE="/home/travis/protobuf/bin"
+      ldconfig -n /home/travis/protobuf/lib
     fi
 
   ############################################################################
