@@ -106,10 +106,10 @@ install:
       cd ..
     else
       echo 'Using cached directory for protobuf.';
-      export Protobuf_ROOT_DIR = "$HOME/protobuf"
-      export Protobuf_INCLUDE_DIRS = "$HOME/protobuf/include"
-      export Protobuf_LIBRARY = "$HOME/protobuf/lib"
-      export Protobuf_PROTOC_EXECUTABLE = "$HOME/protobuf/bin"
+      export Protobuf_ROOT_DIR="$HOME/protobuf"
+      export Protobuf_INCLUDE_DIRS="$HOME/protobuf/include"
+      export Protobuf_LIBRARY="$HOME/protobuf/lib"
+      export Protobuf_PROTOC_EXECUTABLE="$HOME/protobuf/bin"
     fi
 
   ############################################################################
