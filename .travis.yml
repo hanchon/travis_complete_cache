@@ -90,13 +90,13 @@ install:
   - wget -O build_deps.sh  https://raw.githubusercontent.com/hanchon/travis_complete_cache/master/build_deps.sh
   - sudo chmod 777 build_deps.sh  
   # Install Boost
-  - ./build_deps.sh boost ${TRAVIS_OS_NAME}
+  - ./build_deps.sh boost "${TRAVIS_OS_NAME}"
   # Install ZeroMQ
   - cd ${DEPS_DIR}
-  - ./build_deps.sh zeromq ${TRAVIS_OS_NAME}
+  - ./build_deps.sh zeromq "${TRAVIS_OS_NAME}"
   # Install Protobuf
   - cd ${DEPS_DIR}
-  - ./build_deps.sh protobuf ${TRAVIS_OS_NAME}
+  - ./build_deps.sh protobuf "${TRAVIS_OS_NAME}"
   #Set linux variables:
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
@@ -116,11 +116,11 @@ install:
   - wget -O build_bitprim.sh  https://raw.githubusercontent.com/hanchon/travis_complete_cache/master/build_bitprim.sh
   - sudo chmod 777 build_bitprim.sh
   #Install bitprim-secp256k1
-  - ./build_bitprim.sh secp256k1 ${TRAVIS_OS_NAME}
+  - ./build_bitprim.sh secp256k1 "${TRAVIS_OS_NAME}"
   #Install bitprim-core
-  - ./build_bitprim.sh core ${TRAVIS_OS_NAME}
+  - ./build_bitprim.sh core "${TRAVIS_OS_NAME}"
   #Install bitprim-protocol
-  - ./build_bitprim.sh protocol ${TRAVIS_OS_NAME}
+  - ./build_bitprim.sh protocol "${TRAVIS_OS_NAME}"
 
   - echo "install"
 
