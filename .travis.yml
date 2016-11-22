@@ -95,7 +95,7 @@ install:
       export ZeroMQ_INCLUDE_DIR="/home/travis/zeromq/include"
       export ZeroMQ_LIBRARIES="/home/travis/zeromq/lib"
       
-      export ZEROMQ=" -DCMAKE_INSTALL_PREFIX=/home/travis/zeromq "
+      export ZEROMQ=" -DZeroMQ_ROOT_DIR=/home/travis/zeromq "
     fi
   ############################################################################
   # Install protobuf
